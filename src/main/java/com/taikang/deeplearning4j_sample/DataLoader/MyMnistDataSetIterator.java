@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.taikang.deeplearning4j_sample.DataLoader;
 
 import java.io.IOException;
@@ -14,7 +11,7 @@ import org.deeplearning4j.datasets.iterator.BaseDatasetIterator;
  * @Discription 数据获取器
  */
 public class MyMnistDataSetIterator extends BaseDatasetIterator {
-	
+
 	public MyMnistDataSetIterator(int batch,int numExamples) throws IOException {
 		this(batch,numExamples,false);
 	}
