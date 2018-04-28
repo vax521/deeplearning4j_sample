@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.taikang.deeplearning4j_sample.CNN;
+package com.taikang.deeplearning4j_sample.NN;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,15 +22,16 @@ import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
+import com.taikang.deeplearning4j_sample.DataLoader.MyMnistDataSetIterator;
+
 /**
  * @author xingxf03
  * @since 2018年4月26日
  * @Discription TODO
  */
-public class NN_MNSIT {
+public class MultiLayerNN {
 	public static void main(String[] args) throws IOException {
-		//超参数定义
-				int nChannels = 1;
+		        //超参数定义
 				int outputNum = 10;
 				int batchSize = 64; 
 				int nEpoches = 10;
@@ -51,8 +52,11 @@ public class NN_MNSIT {
 		        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
 		                .seed(seed)
 		                .iterations(iterations)
+		                //参数正则化
 		                .regularization(true).l2(0.0005)
+		                //神经网络学习率
 		                .learningRate(.01)
+		                
 		                .weightInit(WeightInit.XAVIER)
 		                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
 		                .updater(Updater.NESTEROVS).momentum(0.9)
@@ -69,16 +73,17 @@ public class NN_MNSIT {
 		                		.activation(Activation.SOFTMAX)
 		                		.nOut(outputNum)
 		                		.build())
-		                .setInputType(InputType.convolutionalFlat(28,28,1)) //See note below
+		                //将输入图片展成28*28的一维向量
+		                .setInputType(InputType.convolutionalFlat(28,28,1)) 
 		                .backprop(true).pretrain(false).build();
 		        
-		        //Build the model 
+		        //构建模型 
 				System.out.println("Build model....");
 		        MultiLayerNetwork  model = new MultiLayerNetwork(conf);
 		        model.init();
 		        
 		        System.out.println("Train the model...");
-		        model.setListeners(new ScoreIterationListener(100));
+		        model.setListeners(new ScoreIterationListener(1));
 		        //开始训练
 		        for (int i = 0; i < nEpoches; i++) {
 					model.fit(trainData);

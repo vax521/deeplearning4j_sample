@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.taikang.deeplearning4j_sample.CNN;
+package com.taikang.deeplearning4j_sample.DataLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,11 +22,13 @@ import org.nd4j.linalg.factory.Nd4j;
  * @since 2018年4月26日
  * @Discription TODO
  */
+@SuppressWarnings("serial")
 public class MyMnistDataFetcher extends BaseDataFetcher{
 
 	public static final int NUM_EXAMPLES = 60000;
     public static final int NUM_EXAMPLES_TEST = 10000;
     protected static final String TEMP_ROOT = System.getProperty("user.home");
+    //放置数据集的文件夹
     protected static final String MNIST_ROOT = "E:\\LearningMaterials\\dataset\\mnist\\";//TEMP_ROOT + File.separator + "MNIST" + File.separator;
 
     protected transient MnistManager man;
@@ -35,7 +37,6 @@ public class MyMnistDataFetcher extends BaseDataFetcher{
     protected int[] order;
     protected Random rng;
     protected boolean shuffle;
-
 
     /**
      * Constructor telling whether to binarize the dataset or not
@@ -49,7 +50,6 @@ public class MyMnistDataFetcher extends BaseDataFetcher{
     public MyMnistDataFetcher(boolean binarize, boolean train, boolean shuffle, long rngSeed) throws IOException {
     	System.out.println("mnistExists()="+mnistExists());
     	if(!mnistExists()) {
-//    		 System.out.println("2222");
             new MnistFetcher().downloadAndUntar();
         }
         String images;
@@ -91,16 +91,6 @@ public class MyMnistDataFetcher extends BaseDataFetcher{
     }
 
     private boolean mnistExists(){
-        //Check 4 files:
-//        File f = new File(MNIST_ROOT,MnistFetcher.trainingFilesFilename_unzipped);
-//        if(!f.exists()) return false;
-//        f = new File(MNIST_ROOT,MnistFetcher.trainingFileLabelsFilename_unzipped);
-//        if(!f.exists()) return false;
-//        f = new File(MNIST_ROOT,MnistFetcher.testFilesFilename_unzipped);
-//        if(!f.exists()) return false;
-//        f = new File(MNIST_ROOT,MnistFetcher.testFileLabelsFilename_unzipped);
-//        if(!f.exists()) return false;
-//        return true;
     	 File f = new File(MNIST_ROOT,"train-images-idx3-ubyte.gz");
 	        if(!f.exists()) return false;
 	        f = new File(MNIST_ROOT,"train-labels-idx1-ubyte.gz");
@@ -117,15 +107,10 @@ public class MyMnistDataFetcher extends BaseDataFetcher{
     }
 
     public void fetch(int numExamples) {
-    	
-//    	 System.out.println(numExamples);
     	 //每一步的大小，batchSize = 128; // batch size for each epoch
-    	 
         if(!hasMore()) {
             throw new IllegalStateException("Unable to getFromOrigin more; there are no more images");
         }
-
-
         float[][] featureData = new float[numExamples][0];
         float[][] labelData = new float[numExamples][0];
 
@@ -142,10 +127,6 @@ public class MyMnistDataFetcher extends BaseDataFetcher{
             labelData[actualExamples][label] = 1.0f;//第label为答案，置为1
 
             for( int j=0; j<img.length; j++ ){
-            	//byte a = (byte)234;
-            	//System.out.println(a);
-            	//结果是-22
-            	//((int)a) & 0xFF=234
                 float v = ((int)img[j]) & 0xFF; //byte is loaded as signed -> convert to unsigned
                 if(binarize){
                 	//二值化
@@ -156,15 +137,12 @@ public class MyMnistDataFetcher extends BaseDataFetcher{
                     featureVec[j] = v/255.0f;
                 }
             }
-
             actualExamples++;
         }
-
         if(actualExamples < numExamples){
             featureData = Arrays.copyOfRange(featureData,0,actualExamples);
             labelData = Arrays.copyOfRange(labelData,0,actualExamples);
         }
-
         INDArray features = Nd4j.create(featureData);
         INDArray labels = Nd4j.create(labelData);
         curr = new DataSet(features,labels);

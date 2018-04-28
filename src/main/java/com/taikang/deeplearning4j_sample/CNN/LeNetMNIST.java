@@ -2,6 +2,9 @@ package com.taikang.deeplearning4j_sample.CNN;
 
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
+
+import com.taikang.deeplearning4j_sample.DataLoader.MyMnistDataSetIterator;
+
 import org.nd4j.linalg.activations.Activation;
 import java.util.HashMap;
 import java.util.Map;

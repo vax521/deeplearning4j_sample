@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.taikang.deeplearning4j_sample.CNN;
+package com.taikang.deeplearning4j_sample.DataLoader;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import org.deeplearning4j.datasets.iterator.BaseDatasetIterator;
 /**
  * @author xingxf03
  * @since 2018年4月26日
- * @Discription TODO
+ * @Discription 数据获取器
  */
 public class MyMnistDataSetIterator extends BaseDatasetIterator {
 	
