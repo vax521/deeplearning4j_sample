@@ -2,7 +2,7 @@
 环境要求：JDK1.8以上，MAVEN，Eclipse
 <br/>
 > 运行示例需要以下步骤:<br/>
-> 1.下载示例代码,导入eclipse <br/>
+> 1. 下载示例代码,导入eclipse <br/>
 
 > 2. 下载MNIST数据集，并解压到一个目录下<br/>
 
