@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.taikang.deeplearning4j_sample.DataLoader;
 
 import java.io.File;
@@ -20,7 +17,7 @@ import org.nd4j.linalg.factory.Nd4j;
 /**
  * @author xingxf03
  * @since 2018年4月26日
- * @Discription TODO
+ * @Discription 数据加载类
  */
 @SuppressWarnings("serial")
 public class MyMnistDataFetcher extends BaseDataFetcher{
@@ -29,7 +26,7 @@ public class MyMnistDataFetcher extends BaseDataFetcher{
     public static final int NUM_EXAMPLES_TEST = 10000;
     protected static final String TEMP_ROOT = System.getProperty("user.home");
     //放置数据集的文件夹
-    protected static final String MNIST_ROOT = "E:\\LearningMaterials\\dataset\\mnist\\";//TEMP_ROOT + File.separator + "MNIST" + File.separator;
+    protected static final String MNIST_ROOT = "E:\\LearningMaterials\\dataset\\mnist\\";
 
     protected transient MnistManager man;
     protected boolean binarize = true;

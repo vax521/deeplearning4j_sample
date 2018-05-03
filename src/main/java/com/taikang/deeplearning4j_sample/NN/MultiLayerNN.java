@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.taikang.deeplearning4j_sample.NN;
 
 import java.io.IOException;
@@ -31,7 +28,7 @@ import com.taikang.deeplearning4j_sample.DataLoader.MyMnistDataSetIterator;
  */
 public class MultiLayerNN {
 	public static void main(String[] args) throws IOException {
-		        //超参数定义
+		        //参数定义
 				int outputNum = 10;
 				int batchSize = 64; 
 				int nEpoches = 10;
@@ -56,11 +53,15 @@ public class MultiLayerNN {
 		                .regularization(true).l2(0.0005)
 		                //神经网络学习率
 		                .learningRate(.01)
-		                
+		                //权重初始化
 		                .weightInit(WeightInit.XAVIER)
+		                //采用SGD随机梯度下降算法
 		                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
+		                //设置权重更新器的动量
 		                .updater(Updater.NESTEROVS).momentum(0.9)
+		                //将配置复制n次，建立分层的网络结构
 		                .list()
+		                //配置各层的网络结构及相应的激活函数
 		                .layer(0, new DenseLayer.Builder().activation(Activation.RELU)
                                 .nOut(520).build())
 		                .layer(1, new DenseLayer.Builder().activation(Activation.RELU)
@@ -89,6 +90,7 @@ public class MultiLayerNN {
 					model.fit(trainData);
 					System.out.println("*** Complete epoch "+(i+1));
 					System.out.println("Evaluate the model....");
+					//分析训练情况
 					Evaluation evaluation = model.evaluate(testData);
 					System.out.println(evaluation.stats());
 					testData.reset();
